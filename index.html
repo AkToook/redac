@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0056)file:///C:/Users/Asus%20Tuf%20F15/Downloads/routine.html -->
-<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Routine — Reda</title>
-<link href="./Routine — Reda_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -199,7 +199,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
   <button class="splash-dismiss" onclick="dismissSplash()">C'est noté — commencer →</button>
 </div>
 
-<a class="claude-btn" id="claudeBtn" href="https://claude.ai/" target="_blank" rel="noopener">
+<a class="claude-btn" id="claudeBtn" href="https://claude.ai" target="_blank" rel="noopener">
   <div class="claude-icon">🤖</div>
   Coach IA
 </a>
@@ -209,7 +209,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
 <div class="container">
   <div class="header">
     <h1>☀️ Ma Routine</h1>
-    <div class="date" id="todayDate">jeudi 25 juin 2026</div>
+    <div class="date" id="todayDate"></div>
     <div class="streak" id="streakBadge">🔥 0 jours</div>
   </div>
 
@@ -225,7 +225,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
     <div class="section-label">🎯 Objectifs du jour</div>
     <div class="input-group">
       <label>Objectif #1</label>
-      <input type="text" id="obj1" placeholder="La chose la plus importante à faire aujourd&#39;hui...">
+      <input type="text" id="obj1" placeholder="La chose la plus importante à faire aujourd'hui...">
     </div>
     <div class="input-group">
       <label>Objectif #2</label>
@@ -245,163 +245,20 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
     </div>
 
     <div class="section-label">✅ Routines Matin</div>
-    <div id="routinesMatin"><div class="check-item done" data-id="douche">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">1</div>
-        <span class="check-label">🚿 Douche</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;douche&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;douche&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-douche">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;douche&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="priere">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">2</div>
-        <span class="check-label">🤲 Prière</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;priere&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;priere&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-priere">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;priere&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="eau">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">3</div>
-        <span class="check-label">💧 3 verres d'eau</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;eau&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;eau&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-eau">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;eau&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="meditation">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">4</div>
-        <span class="check-label">🧘 Méditation (5 min)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;meditation&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;meditation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-meditation">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;meditation&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="visualisation">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">5</div>
-        <span class="check-label">🎯 Visualisation (échecs potentiels, réussite)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;visualisation&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;visualisation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-visualisation">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;visualisation&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="affirmations">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">6</div>
-        <span class="check-label">💪 Affirmations positives</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;affirmations&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;affirmations&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-affirmations">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;affirmations&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="planning">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">7</div>
-        <span class="check-label">📋 Programmation journée sur feuille blanche</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;planning&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;planning&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-planning">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;planning&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="invocations">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">8</div>
-        <span class="check-label">📿 Invocations (matin + liste perso)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;invocations&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;invocations&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-invocations">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;invocations&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="vocabulaire">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">9</div>
-        <span class="check-label">📖 Vocabulaire (3-4 mots FR/EN)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;vocabulaire&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;vocabulaire&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-vocabulaire">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;vocabulaire&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="salle">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">10</div>
-        <span class="check-label">🏋️ Entraînement salle (1h)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;salle&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;salle&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-salle">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;salle&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="preparation">
-      <div class="check-top">
-        <div class="check-box"></div>
-        <div class="check-num">11</div>
-        <span class="check-label">👔 Préparation (douche, affaires)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;preparation&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;preparation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-preparation">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;preparation&#39;,this.value)" title="Heure">
-      </div>
-    </div></div>
+    <div id="routinesMatin"></div>
 
     <div class="section-label">⚡ Habitudes clés</div>
     <div class="coef-card">
       <div class="coef-title">📝 Feuille blanche au réveil <span class="badge">COEF ×5</span></div>
       <div class="toggle-row">
-        <button class="toggle-btn yes selected" data-key="feuille" data-val="1">✓ Oui</button>
+        <button class="toggle-btn yes" data-key="feuille" data-val="1">✓ Oui</button>
         <button class="toggle-btn no" data-key="feuille" data-val="0">✗ Non</button>
       </div>
     </div>
     <div class="coef-card">
       <div class="coef-title">📵 Téléphone dans la boîte <span class="badge">COEF ×5</span></div>
       <div class="toggle-row">
-        <button class="toggle-btn yes selected" data-key="telephone" data-val="1">✓ Oui</button>
+        <button class="toggle-btn yes" data-key="telephone" data-val="1">✓ Oui</button>
         <button class="toggle-btn no" data-key="telephone" data-val="0">✗ Non</button>
       </div>
     </div>
@@ -424,12 +281,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
 
     <div class="section-label">📋 Colle ici les tâches du Coach IA</div>
     <div class="todo-paste-zone" id="todoPasteZone">
-      <textarea id="todoPasteArea" placeholder="Colle les actionable steps du Coach IA ici...
-
-Ex:
-Maths : exo 34, 343, 345
-Physique : relire chapitre 5
-Prospection : appeler 3 clients"></textarea>
+      <textarea id="todoPasteArea" placeholder="Colle les actionable steps du Coach IA ici...&#10;&#10;Ex:&#10;Maths : exo 34, 343, 345&#10;Physique : relire chapitre 5&#10;Prospection : appeler 3 clients"></textarea>
       <button class="todo-parse-btn" onclick="parseTodos()">Générer les tâches →</button>
     </div>
 
@@ -442,125 +294,8 @@ Prospection : appeler 3 clients"></textarea>
 
   <!-- ========== SOIR ========== -->
   <div class="panel" id="panel-soir">
-    <div class="section-label">📚 Après-midi &amp; Soir</div>
-    <div id="routinesSoir"><div class="check-item " data-id="etudes">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">📚 Études (3 heures)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;etudes&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;etudes&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-etudes">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;etudes&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="prospection">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">📞 Appels / Prospection client</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;prospection&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;prospection&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-prospection">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;prospection&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="suivi">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">📊 Suivi efficacité (feuille + Sheet)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;suivi&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;suivi&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-suivi">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;suivi&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="ecriture">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">✍️ Écriture pensées dans cahier</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;ecriture&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;ecriture&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-ecriture">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;ecriture&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="lecture">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">📖 Lecture (Coran, anglais ou français)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;lecture&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;lecture&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-lecture">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;lecture&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="affirmations_soir">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">🌙 Affirmations positives du soir</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;affirmations_soir&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;affirmations_soir&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-affirmations_soir">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;affirmations_soir&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="rapport">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">📩 Rapport envoyé au père</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;rapport&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;rapport&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-rapport">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;rapport&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item " data-id="whatsapp">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">💬 Message WhatsApp (cadrer ego, humilité)</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;whatsapp&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;whatsapp&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra " id="extra-whatsapp">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;whatsapp&#39;,this.value)" title="Heure">
-      </div>
-    </div><div class="check-item done" data-id="conseils">
-      <div class="check-top">
-        <div class="check-box"></div>
-        
-        <span class="check-label">💡 3 conseils pour demain à appliquer</span>
-        <div class="check-actions">
-          <div class="check-act do" onclick="markCheck(&#39;conseils&#39;,true)" title="Fait">✓</div>
-          <div class="check-act fail" onclick="markCheck(&#39;conseils&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
-        </div>
-      </div>
-      <div class="check-extra show" id="extra-conseils">
-        <input type="time" class="time-input" value="" onchange="saveTime(&#39;conseils&#39;,this.value)" title="Heure">
-      </div>
-    </div></div>
+    <div class="section-label">📚 Après-midi & Soir</div>
+    <div id="routinesSoir"></div>
 
     <div class="section-label">📝 Journal du soir</div>
     <div class="input-group">
@@ -570,14 +305,12 @@ Prospection : appeler 3 clients"></textarea>
 
     <div class="input-group">
       <label>Leçon apprise aujourd'hui</label>
-      <input type="text" id="lecon" placeholder="Qu&#39;est-ce que j&#39;ai appris ?">
+      <input type="text" id="lecon" placeholder="Qu'est-ce que j'ai appris ?">
     </div>
 
     <div class="input-group">
       <label>3 conseils pour demain</label>
-      <textarea id="conseilsDemain" placeholder="1. ...
-2. ...
-3. ..."></textarea>
+      <textarea id="conseilsDemain" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
     </div>
 
     <div class="input-group">
@@ -591,7 +324,7 @@ Prospection : appeler 3 clients"></textarea>
   <!-- ========== DASHBOARD ========== -->
   <div class="panel" id="panel-dashboard">
     <div class="score-card">
-      <div class="score-value mid" id="todayScore">73%</div>
+      <div class="score-value" id="todayScore">—</div>
       <div class="score-label">Score du jour</div>
     </div>
 
@@ -617,13 +350,13 @@ Prospection : appeler 3 clients"></textarea>
   <div class="edt-header">
     <h2>📅</h2>
     <div style="display:flex;gap:.3rem">
-      <span class="edt-view-btn" onclick="switchRight(&#39;edt&#39;,this)">Mon EDT</span>
-      <span class="edt-view-btn active" onclick="switchRight(&#39;cal&#39;,this)">Calendrier</span>
+      <span class="edt-view-btn active" onclick="switchRight('edt',this)">Mon EDT</span>
+      <span class="edt-view-btn" onclick="switchRight('cal',this)">Calendrier</span>
     </div>
   </div>
 
   <!-- MON EDT -->
-  <div class="right-panel" id="right-edt">
+  <div class="right-panel active" id="right-edt">
     <div style="padding:.75rem 1.25rem;display:flex;gap:.3rem;border-bottom:1px solid var(--border)">
       <span class="edt-paste-btn" onclick="pasteEdt()">📋 Coller</span>
       <span class="edt-paste-btn" onclick="editEdt()">✏️ Éditer</span>
@@ -637,8 +370,8 @@ Prospection : appeler 3 clients"></textarea>
   </div>
 
   <!-- CALENDRIER -->
-  <div class="right-panel active" id="right-cal">
-    <iframe id="calendarFrame" src="./Routine — Reda_files/saved_resource.html" style="flex:1;width:100%;height:100%;border:none"></iframe>
+  <div class="right-panel" id="right-cal">
+    <iframe id="calendarFrame" src="https://calendar.google.com/calendar/embed?src=elbilia.reda%40gmail.com&ctz=Europe%2FParis" style="border:0;flex:1;width:100%;height:100%" frameborder="0" scrolling="no"></iframe>
   </div>
 </div>
 </div><!-- /split -->
@@ -1159,6 +892,5 @@ function dismissSplash(){
   sessionStorage.setItem('splash_dismissed_'+TODAY,'1');
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
