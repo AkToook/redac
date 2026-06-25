@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)file:///C:/Users/Asus%20Tuf%20F15/Downloads/routine.html -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routine — Reda</title>
+<link href="./Routine — Reda_files/css2" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafaf9;--bg2:#f5f5f4;--bg3:#e7e5e4;
+  --ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --border:#e7e5e4;--border2:#d6d3d1;
+  --green:#16a34a;--green-bg:#dcfce7;--green-border:#bbf7d0;
+  --red:#dc2626;--red-bg:#fef2f2;--red-border:#fecaca;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-border:#fde68a;
+  --blue:#2563eb;--blue-bg:#eff6ff;--blue-border:#bfdbfe;
+  --font:'Inter',system-ui,sans-serif;
+  --r:12px;--r2:16px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;min-height:100vh}
+
+/* SPLIT LAYOUT */
+.split{display:flex;min-height:100vh}
+.split-left{flex:1;min-width:0}
+.split-right{width:420px;flex-shrink:0;background:#fff;border-left:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.edt-header{padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.edt-header h2{font-size:.85rem;font-weight:700;letter-spacing:-.01em}
+.edt-view-btn{font-size:.7rem;font-weight:500;color:var(--ink2);cursor:pointer;padding:.2rem .5rem;border-radius:8px;border:1px solid var(--border);transition:all .15s}
+.edt-view-btn:hover{border-color:var(--ink3)}
+.edt-view-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.right-panel{flex:1;display:none;flex-direction:column;overflow-y:auto;min-height:0}
+.right-panel.active{display:flex}
+.right-panel iframe{flex:1;min-height:500px}
+.edt-paste-btn{font-size:.7rem;font-weight:500;color:var(--blue);cursor:pointer;background:var(--blue-bg);border:1px solid var(--blue-border);padding:.2rem .6rem;border-radius:8px}
+.edt-paste-btn:hover{opacity:.8}
+.edt-content{flex:1;padding:1.25rem;font-size:.95rem;line-height:1.8;white-space:pre-wrap;word-break:break-word;color:var(--ink);font-weight:500}
+.edt-content.empty{color:var(--ink3);font-style:italic;font-weight:400;display:flex;align-items:center;justify-content:center;text-align:center}
+.edt-edit{display:none;flex:1}
+.edt-edit textarea{width:100%;height:100%;border:none;outline:none;resize:none;padding:1.25rem;font-family:var(--font);font-size:.9rem;line-height:1.7;color:var(--ink)}
+.edt-actions{padding:.75rem 1.25rem;border-top:1px solid var(--border);display:none;gap:.5rem}
+.edt-actions button{flex:1;padding:.45rem;border-radius:var(--r);font-family:var(--font);font-size:.8rem;font-weight:500;cursor:pointer;border:1px solid var(--border)}
+.edt-actions .save{background:var(--ink);color:#fff;border-color:var(--ink)}
+.edt-actions .cancel{background:#fff;color:var(--ink2)}
+
+/* TODO */
+.todo-efficiency{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;text-align:center;margin-bottom:1rem}
+.todo-eff-value{font-size:2.5rem;font-weight:700;letter-spacing:-.04em}
+.todo-eff-label{font-size:.75rem;color:var(--ink2);margin-top:.15rem}
+.todo-paste-zone{margin-bottom:1rem}
+.todo-paste-zone textarea{width:100%;min-height:100px;padding:.75rem;border:1px dashed var(--border2);border-radius:var(--r);font-family:var(--font);font-size:.82rem;line-height:1.6;resize:none;outline:none;background:var(--bg2);color:var(--ink);transition:border-color .2s}
+.todo-paste-zone textarea:focus{border-color:var(--blue);border-style:solid;background:#fff}
+.todo-parse-btn{width:100%;padding:.55rem;background:var(--ink);color:#fff;border:none;border-radius:var(--r);font-family:var(--font);font-size:.8rem;font-weight:600;cursor:pointer;margin-top:.4rem;transition:opacity .2s}
+.todo-parse-btn:hover{opacity:.85}
+
+.todo-item{display:flex;align-items:flex-start;gap:.6rem;padding:.65rem .75rem;background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:.4rem;transition:all .2s}
+.todo-item.done{background:var(--green-bg);border-color:var(--green-border)}
+.todo-item.done .todo-text{text-decoration:line-through;color:var(--ink3)}
+.todo-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .15s;margin-top:1px}
+.todo-item.done .todo-check{background:var(--green);border-color:var(--green)}
+.todo-item.done .todo-check::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+.todo-text{flex:1;font-size:.82rem;line-height:1.4}
+.todo-cat{font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);background:var(--blue-bg);padding:.1rem .4rem;border-radius:5px;margin-bottom:.2rem;display:inline-block}
+.todo-delete{font-size:14px;color:var(--ink3);cursor:pointer;flex-shrink:0;opacity:0;transition:opacity .15s}
+.todo-item:hover .todo-delete{opacity:1}
+.todo-add{padding:.6rem .75rem;border:1px dashed var(--border2);border-radius:var(--r);text-align:center;font-size:.8rem;color:var(--ink3);cursor:pointer;transition:all .2s;margin-top:.5rem}
+.todo-add:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg)}
+
+/* CLAUDE BUTTON */
+.claude-btn{position:fixed;bottom:1.5rem;left:1.5rem;z-index:100;display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;background:var(--ink);color:#fff;border-radius:100px;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:all .2s;text-decoration:none;font-size:.8rem;font-weight:500}
+.claude-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.2)}
+.claude-btn .claude-icon{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#d97706,#ea580c);display:flex;align-items:center;justify-content:center;font-size:12px}
+
+@media(max-width:900px){
+  .split{flex-direction:column}
+  .split-right{width:100%;height:auto;max-height:50vh;position:relative;border-left:none;border-top:1px solid var(--border)}
+}
+
+/* SPLASH VEILLE */
+.splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;text-align:center;overflow-y:auto}
+.splash.hidden{display:none}
+.splash-label{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem}
+.splash-title{font-size:2.8rem;font-weight:700;letter-spacing:-.04em;line-height:1.15;margin-bottom:2rem;max-width:600px}
+.splash-conseils{width:100%;max-width:500px;margin-bottom:2.5rem}
+.splash-conseils .conseil-item{font-size:1.4rem;font-weight:600;line-height:1.4;padding:1rem 0;border-bottom:1px solid var(--border);text-align:left}
+.splash-conseils .conseil-item:last-child{border:none}
+.splash-conseils .conseil-num{color:var(--ink3);font-size:.85rem;font-weight:700;margin-right:.5rem}
+.splash-dismiss{padding:.75rem 2.5rem;background:var(--ink);color:#fff;border:none;border-radius:var(--r2);font-family:var(--font);font-size:.9rem;font-weight:600;cursor:pointer;transition:opacity .2s}
+.splash-dismiss:hover{opacity:.8}
+
+.container{max-width:520px;margin:0 auto;padding:1.5rem 1rem 4rem}
+
+/* HEADER */
+.header{text-align:center;padding:2rem 0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.header h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.header .date{font-size:.8rem;color:var(--ink2);margin-top:.25rem}
+.header .streak{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:.2rem .6rem;border-radius:100px;margin-top:.5rem}
+
+/* TABS */
+.tabs{display:flex;gap:0;background:var(--bg2);border-radius:var(--r);padding:3px;margin-bottom:1.5rem}
+.tab{flex:1;text-align:center;padding:.55rem;font-size:.8rem;font-weight:500;border-radius:10px;cursor:pointer;transition:all .2s;color:var(--ink2)}
+.tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+/* SECTIONS */
+.panel{display:none}
+.panel.active{display:block}
+
+.section-label{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.5rem;margin-top:1.25rem}
+
+/* INPUTS */
+.input-group{margin-bottom:.75rem}
+.input-group label{display:block;font-size:.75rem;font-weight:500;color:var(--ink2);margin-bottom:.3rem}
+.input-group input,.input-group textarea{width:100%;padding:.6rem .75rem;border:1px solid var(--border);border-radius:var(--r);font-family:var(--font);font-size:.85rem;background:#fff;transition:border-color .2s;outline:none}
+.input-group input:focus,.input-group textarea:focus{border-color:var(--blue)}
+.input-group textarea{resize:none;min-height:60px}
+
+/* TIME INPUTS */
+.time-row{display:flex;gap:.75rem;margin-bottom:.75rem}
+.time-row .input-group{flex:1}
+
+/* CHECKLIST */
+.check-item{background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:.5rem;transition:all .2s;user-select:none;overflow:hidden}
+.check-item:hover{border-color:var(--border2)}
+.check-item.done{background:var(--green-bg);border-color:var(--green-border)}
+.check-item.flop{background:var(--red-bg);border-color:var(--red-border)}
+.check-top{display:flex;align-items:center;gap:.6rem;padding:.6rem .75rem;cursor:pointer}
+.check-item.done .check-label{text-decoration:line-through;color:var(--ink3)}
+.check-box{width:18px;height:18px;border-radius:5px;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.check-item.done .check-box{background:var(--green);border-color:var(--green)}
+.check-item.done .check-box::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+.check-item.flop .check-box{background:var(--red);border-color:var(--red)}
+.check-item.flop .check-box::after{content:'✗';color:#fff;font-size:11px;font-weight:700}
+.check-num{font-size:.65rem;font-weight:700;color:var(--ink3);background:var(--bg2);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-label{font-size:.82rem;flex:1}
+.check-actions{display:flex;gap:.3rem;flex-shrink:0}
+.check-act{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;background:#fff;transition:all .15s}
+.check-act.do:hover{background:var(--green-bg);border-color:var(--green)}
+.check-act.fail:hover{background:var(--red-bg);border-color:var(--red)}
+.check-extra{padding:0 .75rem .6rem;display:none}
+.check-extra.show{display:flex;gap:.5rem;align-items:center}
+.check-extra input{flex:1;padding:.35rem .5rem;border:1px solid var(--border);border-radius:8px;font-family:var(--font);font-size:.75rem;outline:none}
+.check-extra input:focus{border-color:var(--blue)}
+.check-extra .time-input{width:80px;flex:none}
+.check-extra .pk-label{font-size:.7rem;color:var(--red);font-weight:500;flex-shrink:0}
+.check-coef{font-size:.65rem;font-weight:600;color:var(--amber);background:var(--amber-bg);padding:.1rem .4rem;border-radius:6px}
+
+/* COEF TOGGLE */
+.coef-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:.85rem;margin-bottom:.6rem}
+.coef-card .coef-title{font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.coef-card .coef-title .badge{font-size:.6rem;color:var(--amber);background:var(--amber-bg);padding:.1rem .35rem;border-radius:5px}
+.toggle-row{display:flex;gap:.5rem}
+.toggle-btn{flex:1;padding:.5rem;border-radius:var(--r);border:1px solid var(--border);font-family:var(--font);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .2s;background:#fff;color:var(--ink2)}
+.toggle-btn.yes.selected{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.toggle-btn.no.selected{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+
+/* VOCAL */
+.vocal-bar{display:flex;align-items:center;gap:.6rem;background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:.65rem .85rem;margin:1rem 0;cursor:pointer;transition:all .2s}
+.vocal-bar:hover{border-color:var(--blue)}
+.vocal-bar.recording{border-color:var(--red);background:var(--red-bg);animation:pulse 1.5s infinite}
+.vocal-icon{width:32px;height:32px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.vocal-bar.recording .vocal-icon{background:var(--red-bg)}
+.vocal-text{font-size:.8rem;color:var(--ink2);flex:1}
+.vocal-hint{font-size:.7rem;color:var(--ink3)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* SUBMIT BTN */
+.submit-btn{width:100%;padding:.75rem;background:var(--ink);color:#fff;border:none;border-radius:var(--r2);font-family:var(--font);font-size:.85rem;font-weight:600;cursor:pointer;margin-top:1.25rem;transition:all .2s;letter-spacing:-.01em}
+.submit-btn:hover{opacity:.85}
+.submit-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* DASHBOARD */
+.score-card{background:#fff;border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;text-align:center;margin-bottom:1rem}
+.score-value{font-size:2.5rem;font-weight:700;letter-spacing:-.04em}
+.score-value.good{color:var(--green)}
+.score-value.mid{color:var(--amber)}
+.score-value.bad{color:var(--red)}
+.score-label{font-size:.75rem;color:var(--ink2);margin-top:.15rem}
+
+.history-row{display:flex;align-items:center;gap:.5rem;padding:.55rem .75rem;background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:.35rem;font-size:.8rem}
+.history-date{color:var(--ink2);width:70px;flex-shrink:0}
+.history-bar{flex:1;height:6px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.history-fill{height:100%;border-radius:3px;transition:width .5s}
+.history-pct{width:40px;text-align:right;font-weight:600;font-size:.75rem}
+
+/* RESPONSIVE */
+@media(max-width:400px){
+  .container{padding:1rem .75rem 3rem}
+  .time-row{flex-direction:column;gap:.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="splash hidden" id="splash">
+  <div class="splash-label">Pensées de la veille</div>
+  <div class="splash-title" id="splashJournal"></div>
+  <div class="splash-conseils" id="splashConseils"></div>
+  <button class="splash-dismiss" onclick="dismissSplash()">C'est noté — commencer →</button>
+</div>
+
+<a class="claude-btn" id="claudeBtn" href="https://claude.ai/" target="_blank" rel="noopener">
+  <div class="claude-icon">🤖</div>
+  Coach IA
+</a>
+
+<div class="split">
+<div class="split-left">
+<div class="container">
+  <div class="header">
+    <h1>☀️ Ma Routine</h1>
+    <div class="date" id="todayDate">jeudi 25 juin 2026</div>
+    <div class="streak" id="streakBadge">🔥 0 jours</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="matin">Matin</div>
+    <div class="tab" data-tab="todo">To-Do</div>
+    <div class="tab" data-tab="soir">Soir</div>
+    <div class="tab" data-tab="dashboard">Dashboard</div>
+  </div>
+
+  <!-- ========== MATIN ========== -->
+  <div class="panel active" id="panel-matin">
+    <div class="section-label">🎯 Objectifs du jour</div>
+    <div class="input-group">
+      <label>Objectif #1</label>
+      <input type="text" id="obj1" placeholder="La chose la plus importante à faire aujourd&#39;hui...">
+    </div>
+    <div class="input-group">
+      <label>Objectif #2</label>
+      <input type="text" id="obj2" placeholder="Deuxième priorité...">
+    </div>
+
+    <div class="section-label">⏰ Horaires</div>
+    <div class="time-row">
+      <div class="input-group">
+        <label>Heure de réveil</label>
+        <input type="time" id="wakeTime">
+      </div>
+      <div class="input-group">
+        <label>Heure de coucher (hier)</label>
+        <input type="time" id="sleepTime">
+      </div>
+    </div>
+
+    <div class="section-label">✅ Routines Matin</div>
+    <div id="routinesMatin"><div class="check-item done" data-id="douche">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">1</div>
+        <span class="check-label">🚿 Douche</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;douche&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;douche&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-douche">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;douche&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="priere">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">2</div>
+        <span class="check-label">🤲 Prière</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;priere&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;priere&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-priere">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;priere&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="eau">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">3</div>
+        <span class="check-label">💧 3 verres d'eau</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;eau&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;eau&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-eau">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;eau&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="meditation">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">4</div>
+        <span class="check-label">🧘 Méditation (5 min)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;meditation&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;meditation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-meditation">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;meditation&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="visualisation">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">5</div>
+        <span class="check-label">🎯 Visualisation (échecs potentiels, réussite)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;visualisation&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;visualisation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-visualisation">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;visualisation&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="affirmations">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">6</div>
+        <span class="check-label">💪 Affirmations positives</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;affirmations&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;affirmations&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-affirmations">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;affirmations&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="planning">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">7</div>
+        <span class="check-label">📋 Programmation journée sur feuille blanche</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;planning&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;planning&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-planning">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;planning&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="invocations">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">8</div>
+        <span class="check-label">📿 Invocations (matin + liste perso)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;invocations&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;invocations&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-invocations">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;invocations&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="vocabulaire">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">9</div>
+        <span class="check-label">📖 Vocabulaire (3-4 mots FR/EN)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;vocabulaire&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;vocabulaire&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-vocabulaire">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;vocabulaire&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="salle">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">10</div>
+        <span class="check-label">🏋️ Entraînement salle (1h)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;salle&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;salle&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-salle">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;salle&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="preparation">
+      <div class="check-top">
+        <div class="check-box"></div>
+        <div class="check-num">11</div>
+        <span class="check-label">👔 Préparation (douche, affaires)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;preparation&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;preparation&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-preparation">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;preparation&#39;,this.value)" title="Heure">
+      </div>
+    </div></div>
+
+    <div class="section-label">⚡ Habitudes clés</div>
+    <div class="coef-card">
+      <div class="coef-title">📝 Feuille blanche au réveil <span class="badge">COEF ×5</span></div>
+      <div class="toggle-row">
+        <button class="toggle-btn yes selected" data-key="feuille" data-val="1">✓ Oui</button>
+        <button class="toggle-btn no" data-key="feuille" data-val="0">✗ Non</button>
+      </div>
+    </div>
+    <div class="coef-card">
+      <div class="coef-title">📵 Téléphone dans la boîte <span class="badge">COEF ×5</span></div>
+      <div class="toggle-row">
+        <button class="toggle-btn yes selected" data-key="telephone" data-val="1">✓ Oui</button>
+        <button class="toggle-btn no" data-key="telephone" data-val="0">✗ Non</button>
+      </div>
+    </div>
+
+    <div class="vocal-bar" id="vocalBar" onclick="toggleVocal()">
+      <div class="vocal-icon">🎙️</div>
+      <div class="vocal-text">Parle pour remplir</div>
+      <div class="vocal-hint">objectifs, réveil, routines...</div>
+    </div>
+
+    <button class="submit-btn" onclick="submitMatin()">Commencer la journée →</button>
+  </div>
+
+  <!-- ========== TO-DO ========== -->
+  <div class="panel" id="panel-todo">
+    <div class="todo-efficiency">
+      <div class="todo-eff-value" id="todoEffValue">—</div>
+      <div class="todo-eff-label">Efficacité</div>
+    </div>
+
+    <div class="section-label">📋 Colle ici les tâches du Coach IA</div>
+    <div class="todo-paste-zone" id="todoPasteZone">
+      <textarea id="todoPasteArea" placeholder="Colle les actionable steps du Coach IA ici...
+
+Ex:
+Maths : exo 34, 343, 345
+Physique : relire chapitre 5
+Prospection : appeler 3 clients"></textarea>
+      <button class="todo-parse-btn" onclick="parseTodos()">Générer les tâches →</button>
+    </div>
+
+    <div id="todoList"></div>
+
+    <div class="todo-add" onclick="addTodoManual()">
+      <span>+ Ajouter une tâche</span>
+    </div>
+  </div>
+
+  <!-- ========== SOIR ========== -->
+  <div class="panel" id="panel-soir">
+    <div class="section-label">📚 Après-midi &amp; Soir</div>
+    <div id="routinesSoir"><div class="check-item " data-id="etudes">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">📚 Études (3 heures)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;etudes&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;etudes&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-etudes">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;etudes&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="prospection">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">📞 Appels / Prospection client</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;prospection&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;prospection&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-prospection">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;prospection&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="suivi">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">📊 Suivi efficacité (feuille + Sheet)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;suivi&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;suivi&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-suivi">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;suivi&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="ecriture">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">✍️ Écriture pensées dans cahier</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;ecriture&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;ecriture&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-ecriture">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;ecriture&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="lecture">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">📖 Lecture (Coran, anglais ou français)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;lecture&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;lecture&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-lecture">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;lecture&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="affirmations_soir">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">🌙 Affirmations positives du soir</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;affirmations_soir&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;affirmations_soir&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-affirmations_soir">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;affirmations_soir&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="rapport">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">📩 Rapport envoyé au père</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;rapport&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;rapport&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-rapport">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;rapport&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item " data-id="whatsapp">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">💬 Message WhatsApp (cadrer ego, humilité)</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;whatsapp&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;whatsapp&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra " id="extra-whatsapp">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;whatsapp&#39;,this.value)" title="Heure">
+      </div>
+    </div><div class="check-item done" data-id="conseils">
+      <div class="check-top">
+        <div class="check-box"></div>
+        
+        <span class="check-label">💡 3 conseils pour demain à appliquer</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck(&#39;conseils&#39;,true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck(&#39;conseils&#39;,&#39;flop&#39;)" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra show" id="extra-conseils">
+        <input type="time" class="time-input" value="" onchange="saveTime(&#39;conseils&#39;,this.value)" title="Heure">
+      </div>
+    </div></div>
+
+    <div class="section-label">📝 Journal du soir</div>
+    <div class="input-group">
+      <label>Pensées / réflexions du jour</label>
+      <textarea id="journal" placeholder="Écris tes pensées ici..."></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Leçon apprise aujourd'hui</label>
+      <input type="text" id="lecon" placeholder="Qu&#39;est-ce que j&#39;ai appris ?">
+    </div>
+
+    <div class="input-group">
+      <label>3 conseils pour demain</label>
+      <textarea id="conseilsDemain" placeholder="1. ...
+2. ...
+3. ..."></textarea>
+    </div>
+
+    <div class="input-group">
+      <label>Note pour demain</label>
+      <input type="text" id="noteDemain" placeholder="Ce que je dois améliorer...">
+    </div>
+
+    <button class="submit-btn" onclick="submitSoir()">Terminer la journée ✓</button>
+  </div>
+
+  <!-- ========== DASHBOARD ========== -->
+  <div class="panel" id="panel-dashboard">
+    <div class="score-card">
+      <div class="score-value mid" id="todayScore">73%</div>
+      <div class="score-label">Score du jour</div>
+    </div>
+
+    <div class="section-label">📊 Historique (7 derniers jours)</div>
+    <div id="historyList"></div>
+
+    <div class="section-label" style="margin-top:1.5rem">📈 Statistiques</div>
+    <div style="display:flex;gap:.5rem">
+      <div class="score-card" style="flex:1">
+        <div class="score-value" id="avgScore" style="font-size:1.5rem">—</div>
+        <div class="score-label">Moyenne 7j</div>
+      </div>
+      <div class="score-card" style="flex:1">
+        <div class="score-value" id="bestScore" style="font-size:1.5rem">—</div>
+        <div class="score-label">Meilleur</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /split-left -->
+
+<div class="split-right">
+  <div class="edt-header">
+    <h2>📅</h2>
+    <div style="display:flex;gap:.3rem">
+      <span class="edt-view-btn" onclick="switchRight(&#39;edt&#39;,this)">Mon EDT</span>
+      <span class="edt-view-btn active" onclick="switchRight(&#39;cal&#39;,this)">Calendrier</span>
+    </div>
+  </div>
+
+  <!-- MON EDT -->
+  <div class="right-panel" id="right-edt">
+    <div style="padding:.75rem 1.25rem;display:flex;gap:.3rem;border-bottom:1px solid var(--border)">
+      <span class="edt-paste-btn" onclick="pasteEdt()">📋 Coller</span>
+      <span class="edt-paste-btn" onclick="editEdt()">✏️ Éditer</span>
+    </div>
+    <div class="edt-content empty" id="edtContent">Colle ton emploi du temps ici<br>📋 Coller ou ✏️ Éditer</div>
+    <div class="edt-edit" id="edtEdit"><textarea id="edtTextarea" placeholder="Colle ou tape ton emploi du temps de demain..."></textarea></div>
+    <div class="edt-actions" id="edtActions">
+      <button class="cancel" onclick="cancelEdt()">Annuler</button>
+      <button class="save" onclick="saveEdt()">Enregistrer</button>
+    </div>
+  </div>
+
+  <!-- CALENDRIER -->
+  <div class="right-panel active" id="right-cal">
+    <iframe id="calendarFrame" src="./Routine — Reda_files/saved_resource.html" style="flex:1;width:100%;height:100%;border:none"></iframe>
+  </div>
+</div>
+</div><!-- /split -->
+
+<script>
+// === DATA ===
+const ROUTINES_MATIN = [
+  {id:'douche', label:'Douche', emoji:'🚿', num:1},
+  {id:'priere', label:'Prière', emoji:'🤲', num:2},
+  {id:'eau', label:'3 verres d\'eau', emoji:'💧', num:3},
+  {id:'meditation', label:'Méditation (5 min)', emoji:'🧘', num:4},
+  {id:'visualisation', label:'Visualisation (échecs potentiels, réussite)', emoji:'🎯', num:5},
+  {id:'affirmations', label:'Affirmations positives', emoji:'💪', num:6},
+  {id:'planning', label:'Programmation journée sur feuille blanche', emoji:'📋', num:7},
+  {id:'invocations', label:'Invocations (matin + liste perso)', emoji:'📿', num:8},
+  {id:'vocabulaire', label:'Vocabulaire (3-4 mots FR/EN)', emoji:'📖', num:9},
+  {id:'salle', label:'Entraînement salle (1h)', emoji:'🏋️', num:10},
+  {id:'preparation', label:'Préparation (douche, affaires)', emoji:'👔', num:11},
+];
+
+const ROUTINES_SOIR = [
+  {id:'etudes', label:'Études (3 heures)', emoji:'📚'},
+  {id:'prospection', label:'Appels / Prospection client', emoji:'📞'},
+  {id:'suivi', label:'Suivi efficacité (feuille + Sheet)', emoji:'📊'},
+  {id:'ecriture', label:'Écriture pensées dans cahier', emoji:'✍️'},
+  {id:'lecture', label:'Lecture (Coran, anglais ou français)', emoji:'📖'},
+  {id:'affirmations_soir', label:'Affirmations positives du soir', emoji:'🌙'},
+  {id:'rapport', label:'Rapport envoyé au père', emoji:'📩'},
+  {id:'whatsapp', label:'Message WhatsApp (cadrer ego, humilité)', emoji:'💬'},
+  {id:'conseils', label:'3 conseils pour demain à appliquer', emoji:'💡'},
+];
+
+// === STATE ===
+let state = {checks:{}, toggles:{}, matin_done:false, soir_done:false};
+
+// === LOAD FROM LOCALSTORAGE ===
+const TODAY = new Date().toISOString().slice(0,10);
+function loadState(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('routine_'+TODAY));
+    if(saved) state = saved;
+  }catch(e){}
+}
+function saveState(){
+  localStorage.setItem('routine_'+TODAY, JSON.stringify(state));
+}
+
+// === DATE DISPLAY ===
+document.getElementById('todayDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+// === TABS ===
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+    if(t.dataset.tab==='dashboard') renderDashboard();
+  });
+});
+
+// === RENDER CHECKLISTS ===
+function renderChecklist(items, containerId){
+  const c = document.getElementById(containerId);
+  c.innerHTML = items.map(r=>{
+    const status = state.checks[r.id]; // true=done, 'flop', or falsy
+    const cls = status===true?'done':status==='flop'?'flop':'';
+    const numHtml = r.num ? `<div class="check-num">${r.num}</div>` : '';
+    const timeVal = (state.times&&state.times[r.id])||'';
+    const pkVal = (state.reasons&&state.reasons[r.id])||'';
+    const showExtra = status===true||status==='flop' ? 'show' : '';
+    return `<div class="check-item ${cls}" data-id="${r.id}">
+      <div class="check-top">
+        <div class="check-box"></div>
+        ${numHtml}
+        <span class="check-label">${r.emoji} ${r.label}</span>
+        <div class="check-actions">
+          <div class="check-act do" onclick="markCheck('${r.id}',true)" title="Fait">✓</div>
+          <div class="check-act fail" onclick="markCheck('${r.id}','flop')" title="Pas fait">✗</div>
+        </div>
+      </div>
+      <div class="check-extra ${showExtra}" id="extra-${r.id}">
+        ${status==='flop'
+          ? `<span class="pk-label">Pourquoi ?</span><input type="text" placeholder="Raison..." value="${pkVal}" onchange="saveReason('${r.id}',this.value)">`
+          : `<input type="time" class="time-input" value="${timeVal}" onchange="saveTime('${r.id}',this.value)" title="Heure">`
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function markCheck(id, val){
+  state.checks[id] = val;
+  if(!state.times) state.times={};
+  if(!state.reasons) state.reasons={};
+  saveState();
+  renderChecklist(ROUTINES_MATIN,'routinesMatin');
+  renderChecklist(ROUTINES_SOIR,'routinesSoir');
+  updateScore();
+}
+
+function saveTime(id, val){
+  if(!state.times) state.times={};
+  state.times[id] = val;
+  saveState();
+}
+
+function saveReason(id, val){
+  if(!state.reasons) state.reasons={};
+  state.reasons[id] = val;
+  saveState();
+}
+
+// === TOGGLE BUTTONS ===
+document.querySelectorAll('.toggle-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const key = btn.dataset.key;
+    const val = parseInt(btn.dataset.val);
+    state.toggles[key] = val;
+    const row = btn.parentElement;
+    row.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    saveState();
+    updateScore();
+  });
+});
+
+// === SCORE CALCULATION ===
+function calcScore(){
+  const totalRoutines = ROUTINES_MATIN.length + ROUTINES_SOIR.length;
+  let checked = 0;
+  [...ROUTINES_MATIN,...ROUTINES_SOIR].forEach(r=>{
+    if(state.checks[r.id]===true) checked++;
+  });
+  // Coef items: feuille(x5) + telephone(x5)
+  const coefMax = 10;
+  let coefScore = 0;
+  if(state.toggles.feuille===1) coefScore+=5;
+  if(state.toggles.telephone===1) coefScore+=5;
+  const total = totalRoutines + coefMax;
+  const score = checked + coefScore;
+  return Math.round((score/total)*100);
+}
+
+function updateScore(){
+  const pct = calcScore();
+  const el = document.getElementById('todayScore');
+  el.textContent = pct+'%';
+  el.className = 'score-value '+(pct>=80?'good':pct>=50?'mid':'bad');
+}
+
+// === VOCAL (Speech-to-Text) ===
+let recognition = null;
+let isRecording = false;
+
+function toggleVocal(){
+  const bar = document.getElementById('vocalBar');
+  if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)){
+    alert('Speech recognition non supporté sur ce navigateur. Utilise Chrome.');
+    return;
+  }
+  if(isRecording){
+    recognition.stop();
+    isRecording = false;
+    bar.classList.remove('recording');
+    bar.querySelector('.vocal-text').textContent = 'Parle pour remplir';
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.lang = 'fr-FR';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = ()=>{
+    isRecording = true;
+    bar.classList.add('recording');
+    bar.querySelector('.vocal-text').textContent = 'Écoute en cours...';
+  };
+  recognition.onresult = (e)=>{
+    const text = e.results[0][0].transcript.toLowerCase();
+    bar.querySelector('.vocal-text').textContent = '✓ "'+e.results[0][0].transcript+'"';
+    parseVocal(text);
+  };
+  recognition.onend = ()=>{
+    isRecording = false;
+    bar.classList.remove('recording');
+    setTimeout(()=>{bar.querySelector('.vocal-text').textContent='Parle pour remplir'},3000);
+  };
+  recognition.onerror = ()=>{
+    isRecording = false;
+    bar.classList.remove('recording');
+    bar.querySelector('.vocal-text').textContent = 'Erreur — réessaie';
+  };
+  recognition.start();
+}
+
+function parseVocal(text){
+  // Try to fill objectives
+  if(text.includes('objectif')||text.includes('priorité')||text.includes('important')){
+    const obj1 = document.getElementById('obj1');
+    if(!obj1.value) obj1.value = text;
+    else document.getElementById('obj2').value = text;
+  }
+  // Try to extract wake time
+  const timeMatch = text.match(/(\d{1,2})\s*[h:]\s*(\d{0,2})/);
+  if(timeMatch && (text.includes('réveil')||text.includes('levé')||text.includes('réveillé'))){
+    const h = timeMatch[1].padStart(2,'0');
+    const m = (timeMatch[2]||'00').padStart(2,'0');
+    document.getElementById('wakeTime').value = h+':'+m;
+  }
+  if(timeMatch && (text.includes('couché')||text.includes('dormi')||text.includes('coucher'))){
+    const h = timeMatch[1].padStart(2,'0');
+    const m = (timeMatch[2]||'00').padStart(2,'0');
+    document.getElementById('sleepTime').value = h+':'+m;
+  }
+  // Check routines by keyword
+  const keywords = {
+    'prière':'priere','prières':'priere','douche':'douche','eau':'eau',
+    'méditation':'meditation','médit':'meditation','visualisation':'visualisation',
+    'affirmation':'affirmations','planning':'planning','feuille':'planning',
+    'invocation':'invocations','vocabulaire':'vocabulaire','salle':'salle',
+    'sport':'salle','entraînement':'salle','gym':'salle',
+    'étude':'etudes','études':'etudes','prospection':'prospection',
+    'écriture':'ecriture','cahier':'ecriture','lecture':'lecture',
+    'rapport':'rapport','père':'rapport','whatsapp':'whatsapp','message':'whatsapp'
+  };
+  Object.keys(keywords).forEach(kw=>{
+    if(text.includes(kw)){
+      const id = keywords[kw];
+      if(!state.checks[id]){
+        state.checks[id] = true;
+        if(!state.times) state.times={};
+        if(!state.reasons) state.reasons={};
+        saveState();
+        renderChecklist(ROUTINES_MATIN,'routinesMatin');
+        renderChecklist(ROUTINES_SOIR,'routinesSoir');
+        updateScore();
+      }
+    }
+  });
+}
+
+// === SUBMIT ===
+function submitMatin(){
+  state.matin_done = true;
+  state.obj1 = document.getElementById('obj1').value;
+  state.obj2 = document.getElementById('obj2').value;
+  state.wakeTime = document.getElementById('wakeTime').value;
+  state.sleepTime = document.getElementById('sleepTime').value;
+  saveState();
+  updateScore();
+  // Switch to soir tab
+  document.querySelectorAll('.tab')[1].click();
+  alert('Session matin enregistrée ✓');
+}
+
+function submitSoir(){
+  state.soir_done = true;
+  state.journal = document.getElementById('journal').value;
+  state.lecon = document.getElementById('lecon').value;
+  state.conseilsDemain = document.getElementById('conseilsDemain').value;
+  state.noteDemain = document.getElementById('noteDemain').value;
+  saveState();
+  updateScore();
+  document.querySelectorAll('.tab')[2].click();
+  alert('Journée terminée ✓ Score: '+calcScore()+'%');
+}
+
+// === DASHBOARD ===
+function renderDashboard(){
+  updateScore();
+  // History
+  const list = document.getElementById('historyList');
+  let html = '';
+  let scores = [];
+  for(let i=0;i<7;i++){
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    const dayLabel = i===0?'Aujourd\'hui':d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric'});
+    let pct = 0;
+    try{
+      const s = JSON.parse(localStorage.getItem('routine_'+key));
+      if(s){
+        let checked = 0;
+        [...ROUTINES_MATIN,...ROUTINES_SOIR].forEach(r=>{if(s.checks&&s.checks[r.id])checked++});
+        let coef = 0;
+        if(s.toggles){
+          if(s.toggles.feuille===1)coef+=5;
+          if(s.toggles.telephone===1)coef+=5;
+        }
+        pct = Math.round(((checked+coef)/(ROUTINES_MATIN.length+ROUTINES_SOIR.length+10))*100);
+      }
+    }catch(e){}
+    scores.push(pct);
+    const color = pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+    const pctColor = pct>=80?'color:var(--green)':pct>=50?'color:var(--amber)':'color:var(--red)';
+    html+=`<div class="history-row">
+      <span class="history-date">${dayLabel}</span>
+      <div class="history-bar"><div class="history-fill" style="width:${pct}%;background:${color}"></div></div>
+      <span class="history-pct" style="${pctColor}">${pct}%</span>
+    </div>`;
+  }
+  list.innerHTML = html;
+
+  // Stats
+  const validScores = scores.filter(s=>s>0);
+  const avg = validScores.length ? Math.round(validScores.reduce((a,b)=>a+b,0)/validScores.length) : 0;
+  const best = validScores.length ? Math.max(...validScores) : 0;
+  document.getElementById('avgScore').textContent = avg+'%';
+  document.getElementById('avgScore').className = 'score-value '+(avg>=80?'good':avg>=50?'mid':'bad');
+  document.getElementById('bestScore').textContent = best+'%';
+  document.getElementById('bestScore').className = 'score-value '+(best>=80?'good':best>=50?'mid':'bad');
+
+  // Streak
+  let streak = 0;
+  for(let i=0;i<30;i++){
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    try{
+      const s = JSON.parse(localStorage.getItem('routine_'+key));
+      if(s && s.matin_done) streak++;
+      else if(i>0) break;
+    }catch(e){if(i>0)break;}
+  }
+  document.getElementById('streakBadge').textContent = '🔥 '+streak+' jour'+(streak>1?'s':'');
+}
+
+// === INIT ===
+loadState();
+renderChecklist(ROUTINES_MATIN,'routinesMatin');
+renderChecklist(ROUTINES_SOIR,'routinesSoir');
+
+// Restore toggles
+Object.keys(state.toggles).forEach(key=>{
+  const val = state.toggles[key];
+  const btn = document.querySelector(`.toggle-btn[data-key="${key}"][data-val="${val}"]`);
+  if(btn) btn.classList.add('selected');
+});
+
+// Restore inputs
+if(state.obj1) document.getElementById('obj1').value = state.obj1;
+if(state.obj2) document.getElementById('obj2').value = state.obj2;
+if(state.wakeTime) document.getElementById('wakeTime').value = state.wakeTime;
+if(state.sleepTime) document.getElementById('sleepTime').value = state.sleepTime;
+if(state.journal) document.getElementById('journal').value = state.journal;
+if(state.lecon) document.getElementById('lecon').value = state.lecon;
+if(state.conseilsDemain) document.getElementById('conseilsDemain').value = state.conseilsDemain;
+if(state.noteDemain) document.getElementById('noteDemain').value = state.noteDemain;
+
+updateScore();
+
+// === TO-DO LIST ===
+function loadTodos(){
+  try{
+    const saved = JSON.parse(localStorage.getItem('todos_'+TODAY));
+    if(saved) return saved;
+  }catch(e){}
+  return [];
+}
+function saveTodos(todos){
+  localStorage.setItem('todos_'+TODAY, JSON.stringify(todos));
+}
+function renderTodos(){
+  const todos = loadTodos();
+  const list = document.getElementById('todoList');
+  list.innerHTML = todos.map((t,i)=>{
+    const cls = t.done ? 'done' : '';
+    const catHtml = t.category ? `<div class="todo-cat">${t.category}</div>` : '';
+    return `<div class="todo-item ${cls}">
+      <div class="todo-check" onclick="toggleTodo(${i})"></div>
+      <div class="todo-text">${catHtml}${t.text}</div>
+      <div class="todo-delete" onclick="deleteTodo(${i})">✕</div>
+    </div>`;
+  }).join('');
+  updateTodoEff(todos);
+}
+function toggleTodo(i){
+  const todos = loadTodos();
+  todos[i].done = !todos[i].done;
+  saveTodos(todos);
+  renderTodos();
+}
+function deleteTodo(i){
+  const todos = loadTodos();
+  todos.splice(i,1);
+  saveTodos(todos);
+  renderTodos();
+}
+function parseTodos(){
+  const text = document.getElementById('todoPasteArea').value.trim();
+  if(!text) return;
+  const todos = loadTodos();
+  const lines = text.split('\n').filter(l=>l.trim());
+  let currentCat = '';
+  lines.forEach(line=>{
+    const catMatch = line.match(/^(.+?)\s*[:：]\s*(.+)/);
+    if(catMatch){
+      currentCat = catMatch[1].trim();
+      const items = catMatch[2].split(/[,،;]+/).map(s=>s.trim()).filter(Boolean);
+      items.forEach(item=>{
+        todos.push({text:item, category:currentCat, done:false});
+      });
+    } else {
+      todos.push({text:line.trim(), category:currentCat||'', done:false});
+    }
+  });
+  saveTodos(todos);
+  renderTodos();
+  document.getElementById('todoPasteArea').value = '';
+}
+function addTodoManual(){
+  const text = prompt('Nouvelle tâche :');
+  if(text && text.trim()){
+    const todos = loadTodos();
+    todos.push({text:text.trim(), category:'', done:false});
+    saveTodos(todos);
+    renderTodos();
+  }
+}
+function updateTodoEff(todos){
+  const el = document.getElementById('todoEffValue');
+  if(!todos.length){el.textContent='—';el.className='todo-eff-value';return;}
+  const done = todos.filter(t=>t.done).length;
+  const pct = Math.round((done/todos.length)*100);
+  el.textContent = pct+'%';
+  el.className = 'todo-eff-value '+(pct>=80?'good':pct>=50?'mid':'bad');
+}
+renderTodos();
+
+// === RIGHT PANEL SWITCH ===
+function switchRight(panel, btn){
+  document.querySelectorAll('.right-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.edt-view-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('right-'+panel).classList.add('active');
+  btn.classList.add('active');
+  // Lazy-load calendar
+  if(panel==='cal'){
+    const f = document.getElementById('calendarFrame');
+    if(!f.src||f.src==='') f.src='https://calendar.google.com/calendar/embed?src=elbilia.reda%40gmail.com&ctz=Africa%2FCasablanca&mode=WEEK&showTitle=0&showNav=1&showPrint=0&showCalendars=0&showTz=0&bgcolor=%23fafaf9';
+  }
+}
+
+// === EDT ===
+function loadEdt(){
+  const saved = localStorage.getItem('edt_'+TODAY);
+  if(saved){
+    document.getElementById('edtContent').textContent = saved;
+    document.getElementById('edtContent').classList.remove('empty');
+  }
+}
+function pasteEdt(){
+  navigator.clipboard.readText().then(text=>{
+    if(text.trim()){
+      localStorage.setItem('edt_'+TODAY, text.trim());
+      document.getElementById('edtContent').textContent = text.trim();
+      document.getElementById('edtContent').classList.remove('empty');
+    }
+  }).catch(()=>{ editEdt(); });
+}
+function editEdt(){
+  const current = localStorage.getItem('edt_'+TODAY)||'';
+  document.getElementById('edtTextarea').value = current;
+  document.getElementById('edtContent').style.display='none';
+  document.getElementById('edtEdit').style.display='flex';
+  document.getElementById('edtActions').style.display='flex';
+  document.getElementById('edtTextarea').focus();
+}
+function saveEdt(){
+  const val = document.getElementById('edtTextarea').value.trim();
+  if(val){
+    localStorage.setItem('edt_'+TODAY, val);
+    document.getElementById('edtContent').textContent = val;
+    document.getElementById('edtContent').classList.remove('empty');
+  }
+  document.getElementById('edtContent').style.display='';
+  document.getElementById('edtEdit').style.display='none';
+  document.getElementById('edtActions').style.display='none';
+}
+function cancelEdt(){
+  document.getElementById('edtContent').style.display='';
+  document.getElementById('edtEdit').style.display='none';
+  document.getElementById('edtActions').style.display='none';
+}
+loadEdt();
+
+// === SPLASH: PENSÉES DE LA VEILLE ===
+(function(){
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1);
+  const yKey = yesterday.toISOString().slice(0,10);
+  const splashDismissed = sessionStorage.getItem('splash_dismissed_'+TODAY);
+  try{
+    const prev = JSON.parse(localStorage.getItem('routine_'+yKey));
+    if(prev && !splashDismissed){
+      const hasJournal = prev.journal && prev.journal.trim();
+      const hasConseils = prev.conseilsDemain && prev.conseilsDemain.trim();
+      if(hasJournal || hasConseils){
+        const splash = document.getElementById('splash');
+        splash.classList.remove('hidden');
+        document.getElementById('splashJournal').textContent = prev.journal || '';
+        if(hasConseils){
+          const lines = prev.conseilsDemain.split('\n').filter(l=>l.trim());
+          document.getElementById('splashConseils').innerHTML = lines.map((l,i)=>{
+            const clean = l.replace(/^\d+[\.\)\-\s]*/,'').trim();
+            return `<div class="conseil-item"><span class="conseil-num">${i+1}.</span>${clean}</div>`;
+          }).join('');
+        }
+      }
+    }
+  }catch(e){}
+})();
+
+function dismissSplash(){
+  document.getElementById('splash').classList.add('hidden');
+  sessionStorage.setItem('splash_dismissed_'+TODAY,'1');
+}
+</script>
+
+
+</body></html>
