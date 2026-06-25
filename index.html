@@ -95,6 +95,11 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
 .header{text-align:center;padding:2rem 0 1.5rem;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
 .header h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
 .header .date{font-size:.8rem;color:var(--ink2);margin-top:.25rem}
+.date-nav{display:flex;align-items:center;justify-content:center;gap:.5rem;margin:.5rem 0 .25rem}
+.date-nav input[type="date"]{font-family:var(--font);font-size:.85rem;font-weight:600;border:1px solid var(--border);border-radius:var(--r);padding:.35rem .6rem;background:#fff;color:var(--ink);cursor:pointer;outline:none;text-align:center}
+.date-nav input[type="date"]:focus{border-color:var(--blue)}
+.date-arrow{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--ink)}
+.date-arrow:hover{background:var(--bg2);border-color:var(--ink3)}
 .header .streak{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:.2rem .6rem;border-radius:100px;margin-top:.5rem}
 
 /* TABS */
@@ -209,6 +214,11 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
 <div class="container">
   <div class="header">
     <h1>☀️ Ma Routine</h1>
+    <div class="date-nav">
+      <button class="date-arrow" onclick="changeDate(-1)">←</button>
+      <input type="date" id="datePicker" onchange="goToDate(this.value)">
+      <button class="date-arrow" onclick="changeDate(1)">→</button>
+    </div>
     <div class="date" id="todayDate"></div>
     <div class="streak" id="streakBadge">🔥 0 jours</div>
   </div>
@@ -407,8 +417,9 @@ const ROUTINES_SOIR = [
 // === STATE ===
 let state = {checks:{}, toggles:{}, matin_done:false, soir_done:false};
 
-// === LOAD FROM LOCALSTORAGE ===
-const TODAY = new Date().toISOString().slice(0,10);
+// === DATE ===
+let TODAY = new Date().toISOString().slice(0,10);
+let currentDate = new Date();
 function loadState(){
   try{
     const saved = JSON.parse(localStorage.getItem('routine_'+TODAY));
@@ -419,8 +430,48 @@ function saveState(){
   localStorage.setItem('routine_'+TODAY, JSON.stringify(state));
 }
 
-// === DATE DISPLAY ===
-document.getElementById('todayDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+// === DATE DISPLAY & NAVIGATION ===
+function updateDateDisplay(){
+  document.getElementById('todayDate').textContent = currentDate.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('datePicker').value = TODAY;
+}
+function changeDate(delta){
+  currentDate.setDate(currentDate.getDate()+delta);
+  TODAY = currentDate.toISOString().slice(0,10);
+  reloadDay();
+}
+function goToDate(val){
+  currentDate = new Date(val+'T12:00:00');
+  TODAY = val;
+  reloadDay();
+}
+function reloadDay(){
+  updateDateDisplay();
+  state = {checks:{}, toggles:{}, matin_done:false, soir_done:false};
+  loadState();
+  renderChecklist(ROUTINES_MATIN,'routinesMatin');
+  renderChecklist(ROUTINES_SOIR,'routinesSoir');
+  renderTodos();
+  // Restore toggles
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('selected'));
+  Object.keys(state.toggles).forEach(key=>{
+    const val = state.toggles[key];
+    const btn = document.querySelector(`.toggle-btn[data-key="${key}"][data-val="${val}"]`);
+    if(btn) btn.classList.add('selected');
+  });
+  // Restore inputs
+  document.getElementById('obj1').value = state.obj1||'';
+  document.getElementById('obj2').value = state.obj2||'';
+  document.getElementById('wakeTime').value = state.wakeTime||'';
+  document.getElementById('sleepTime').value = state.sleepTime||'';
+  document.getElementById('journal').value = state.journal||'';
+  document.getElementById('lecon').value = state.lecon||'';
+  document.getElementById('conseilsDemain').value = state.conseilsDemain||'';
+  document.getElementById('noteDemain').value = state.noteDemain||'';
+  updateScore();
+  loadEdt();
+}
+updateDateDisplay();
 
 // === TABS ===
 document.querySelectorAll('.tab').forEach(t=>{
